@@ -1,0 +1,56 @@
+#!/bin/sh
+
+
+
+# Source code provided to STI is at ${HOME}/source
+LOCAL_SOURCE_DIR=${HOME}/source
+mkdir -p $LOCAL_SOURCE_DIR
+
+# Resulting WAR files will be deployed to /opt/eap/standalone/deployments
+DEPLOY_DIR=$JBOSS_HOME/standalone/deployments
+
+# JBoss AS data dir. Can be overridden.
+DATA_DIR=${DATA_DIR-$JBOSS_HOME/data}
+
+# the subdirectory within LOCAL_SOURCE_DIR from where we should copy build
+# artifacts (*.war, *.jar)
+ARTIFACT_DIR=${ARTIFACT_DIR-target}
+
+function copy_artifacts() {
+  if [ -d $LOCAL_SOURCE_DIR/$1 ]; then
+    echo "Copying all WAR and EAR artifacts from $LOCAL_SOURCE_DIR/$1 directory into $DEPLOY_DIR for later deployment..."
+    cp -v $LOCAL_SOURCE_DIR/$1/*.jar $LOCAL_SOURCE_DIR/$1/*.war $LOCAL_SOURCE_DIR/$1/*.ear $DEPLOY_DIR 2> /dev/null
+  fi
+}
+
+# Copy the source for version
+cp -ad /tmp/src/* $LOCAL_SOURCE_DIR
+
+NEXUS_WAR_URL="http://NADA"
+
+if [ -f "$LOCAL_SOURCE_DIR/pom.xml" ]; then
+
+  pushd $LOCAL_SOURCE_DIR &> /dev/null
+  echo "Found pom.xml..."
+
+  GROUP_ID=`xmllint --xpath "//*[local-name()='project']/*[local-name()='groupId']/text()" pom.xml | sed 's/\./\//g'`
+  ART_ID=`xmllint --xpath "//*[local-name()='project']/*[local-name()='artifactId']/text()" pom.xml`
+  APP_VERSION=`xmllint --xpath "//*[local-name()='project']/*[local-name()='version']/text()" pom.xml`
+  NEXUS_URL=`xmllint --xpath "//*[local-name()='project']/*[local-name()='distributionManagement']/*[local-name()='repository']/*[local-name()='url']/text()" pom.xml`
+
+  NEXUS_WAR_URL=$NEXUS_URL$GROUP_ID/$ART_ID/$APP_VERSION-$BUILD_JOB_NUMBER/$ART_ID-$APP_VERSION-$BUILD_JOB_NUMBER.war
+  echo "Artifact url is -"$NEXUS_WAR_URL"-...."
+fi
+
+
+# Copy (probably binary) artifacts from the deployments/
+# directory to the $JBOSS_HOME/standalone/deployments/
+# directory for later deployment
+copy_artifacts "deployments"
+
+
+echo "Copying artifact to deployment root " ${NEXUS_WAR_URL}
+curl -o ${DEPLOY_DIR}/ROOT.war -O ${NEXUS_WAR_URL}
+
+
+exit 0
