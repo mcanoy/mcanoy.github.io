@@ -1,6 +1,7 @@
 #!/bin/sh
 
-
+echo "BUILD NUMBER: $BUILD_JOB_NUMBER"
+echo "ALTERNATE ARTIFACT REPO URL $REPO_URL"
 
 # Source code provided to STI is at ${HOME}/source
 LOCAL_SOURCE_DIR=${HOME}/source
