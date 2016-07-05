@@ -37,7 +37,11 @@ if [ -f "$LOCAL_SOURCE_DIR/pom.xml" ]; then
   GROUP_ID=`xmllint --xpath "//*[local-name()='project']/*[local-name()='groupId']/text()" pom.xml | sed 's/\./\//g'`
   ART_ID=`xmllint --xpath "//*[local-name()='project']/*[local-name()='artifactId']/text()" pom.xml`
   APP_VERSION=`xmllint --xpath "//*[local-name()='project']/*[local-name()='version']/text()" pom.xml`
-  NEXUS_URL=`xmllint --xpath "//*[local-name()='project']/*[local-name()='distributionManagement']/*[local-name()='repository']/*[local-name()='url']/text()" pom.xml`
+  APP_VERSION="${APP_VERSION//-SNAPSHOT}"
+  NEXUS_URL=$REPO_URL
+  if [ -z "$NEXUS_URL" ]; then
+    NEXUS_URL=`xmllint --xpath "//*[local-name()='project']/*[local-name()='distributionManagement']/*[local-name()='repository']/*[local-name()='url']/text()" pom.xml`
+  fi
 
   NEXUS_WAR_URL=$NEXUS_URL$GROUP_ID/$ART_ID/$APP_VERSION-$BUILD_JOB_NUMBER/$ART_ID-$APP_VERSION-$BUILD_JOB_NUMBER.war
   echo "Artifact url is -"$NEXUS_WAR_URL"-...."
