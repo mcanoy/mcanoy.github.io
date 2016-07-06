@@ -13,9 +13,6 @@ if [ "${mcr}" = "true" ]; then
 fi
 
 
-
-. $(dirname $0)/common.sh
-
 echo "BUILD NUMBER: $BUILD_JOB_NUMBER"
 echo "ALTERNATE ARTIFACT REPO URL $REPO_URL"
 
@@ -97,15 +94,10 @@ if [ -f "$LOCAL_SOURCE_DIR/pom.xml" ]; then
   fi
 
   # optionally clear the local maven repository after the build
-  clear_maven_repository
+  # clear_maven_repository
 
   popd &> /dev/null
 fi
-
-# Copy (probably binary) artifacts from the deployments/
-# directory to the $JBOSS_HOME/standalone/deployments/
-# directory for later deployment
-copy_artifacts "deployments" war ear jar
 
 if [ -d $LOCAL_SOURCE_DIR/modules ]; then
   echo "Copying modules from project..."
