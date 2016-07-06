@@ -1,0 +1,20 @@
+#!/bin/sh
+# if using vim, do ':set ft=zsh' for easier reading
+
+# run the parent EAP assemble script, but do not allow it to clear the local mav
+en repository
+# after the build, as it is used by KIE to load kjars and their dependencies
+mcr=$(echo "${MAVEN_CLEAR_REPO}" | tr [:upper:] [:lower:])
+if [ "${mcr}" = "true" ]; then
+    >&2 echo "WARNING: Cannot clear local maven repository as KIE depends on it.
+ Overriding MAVEN_CLEAR_REPO to false."
+    MAVEN_CLEAR_REPO="false"
+    export MAVEN_CLEAR_REPO
+fi
+/usr/local/s2i/assemble_eap
+
+# install all KIE kjars into local m2 repository
+$JBOSS_HOME/bin/kieserver-install.sh
+
+# ensure all KIE dependencies are pulled for offline use
+$JBOSS_HOME/bin/kieserver-pull.sh
