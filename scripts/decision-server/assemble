@@ -107,9 +107,8 @@ fi
 echo "Copying artifact to deployment root " ${NEXUS_WAR_URL}
 curl -o ${DEPLOY_DIR}/$ART_ID-$APP_VERSION-$BUILD_JOB_NUMBER.$ARTIFACT_TYPE -O ${NEXUS_WAR_URL}
 
-exit 0
 
-
+echo "Labs Deploying kjars"
 
 
 # install all KIE kjars into local m2 repository
@@ -117,3 +116,5 @@ $JBOSS_HOME/bin/kieserver-install.sh
 
 # ensure all KIE dependencies are pulled for offline use
 $JBOSS_HOME/bin/kieserver-pull.sh
+
+exit 0
