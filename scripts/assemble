@@ -62,7 +62,7 @@ copy_artifacts "deployments"
 echo "Copying artifact to deployment root " ${NEXUS_WAR_URL}
 curl -o ${DEPLOY_DIR}/ROOT.war -O ${NEXUS_WAR_URL}
 
-if [ -z "$SOLR" ]; then
+if [ "$SOLR" = "true" ]; then
   echo "Copying solr core props"
   curl -o ${DEPLOY_DIR}/solrcore.properties -O https://mcanoy.github.io/gumbo.txt
 fi
