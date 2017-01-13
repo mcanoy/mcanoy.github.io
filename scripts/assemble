@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "SOLR: "$SOLR"
+echo "SOLR: $SOLR"
 echo "BUILD NUMBER: $BUILD_JOB_NUMBER"
 echo "ALTERNATE ARTIFACT REPO URL $REPO_URL"
 
@@ -63,7 +63,7 @@ echo "Copying artifact to deployment root " ${NEXUS_WAR_URL}
 curl -o ${DEPLOY_DIR}/ROOT.war -O ${NEXUS_WAR_URL}
 
 if [ -z "$SOLR" ]; then
-  #echo "Copying solr core props"
+  echo "Copying solr core props"
   curl -o ${DEPLOY_DIR}/solrcore.properties -O https://mcanoy.github.io/gumbo.txt
 fi
 
