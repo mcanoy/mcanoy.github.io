@@ -107,8 +107,8 @@ com.apollo.defaultPassTimeOut=60000
 com.apollo.defaultSearchProfileTimeOut=60000
 com.apollo.facet.limit=1500
 
-log4j.appender.apollo.admin-access.File=/www/logs/jboss/apollo_MyServices_labUNApollo_m2/apollo-access.log
-log4j.appender.heartbeat.File=/www/logs/jboss/apollo_MyServices_labUNApollo_m2/apollo-heartbeat.log
-log4j.appender.query.File=/www/logs/jboss/apollo_MyServices_labUNApollo_m2/apollo-query.log
-log4j.appender.rollingFile.File=/www/logs/jboss/apollo_MyServices_labUNApollo_m2/apollo-trace.log
+log4j.appender.apollo.admin-access.File=/opt/eap/standalone/log/apollo-access.log
+log4j.appender.heartbeat.File=/opt/eap/standalone/log/apollo-heartbeat.log
+log4j.appender.query.File=/opt/eap/standalone/log/apollo-query.log
+log4j.appender.rollingFile.File=/opt/eap/standalone/log/apollo-trace.log
 
