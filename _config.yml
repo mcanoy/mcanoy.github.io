@@ -1,9 +1,9 @@
 # Site settings
 title: Tech Things
-header-img: img/home-bg.jpg
+header-img: img/brown-cloud.png
 email: your-email@yourdomain.com
-copyright_name: ByMe
-description: "Covering new technology. Consultant at Red Hat"
+copyright_name: Kevin
+description: "New technology. Wears a Red Hat. It has a claw on it"
 url: "http://mcanoy.github.io"
 twitter_username: whereswendel
 github_username:  mcanoy
@@ -11,7 +11,7 @@ github_username:  mcanoy
 
 # Google Analytics
 # To enable google analytics, uncomment below line with a valid Google Tracking ID
-# google_tracking_id:
+google_tracking_id: UA-2669425-4
 
 # Build settings
 markdown: kramdown
